@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center_horizontal"
+        android:layout_above="@+id/textView">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:gravity="center"
+            android:scaleType="fitCenter"
+            app:srcCompat="@color/colorPrimary"
+
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:layout_alignTop="@+id/buttonAnswer"
+        android:layout_alignBottom="@+id/buttonAnswer"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/buttonAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        android:gravity="center"
+        android:layout_above="@+id/adView"
+        android:layout_centerHorizontal="true" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="SMART_BANNER"
+        android:layout_gravity="center|bottom"
+        ads:adUnitId="ca-app-pub-2888343178529026/2421808594"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+    </com.google.android.gms.ads.AdView>
+
+</RelativeLayout>
