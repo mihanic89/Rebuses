@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "806175016869",
+    "firebase_url": "https://knowledge-955b2.firebaseio.com",
+    "project_id": "knowledge-955b2",
+    "storage_bucket": "knowledge-955b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806175016869:android:50849ad06b6dbb44",
+        "android_client_info": {
+          "package_name": "xyz.yapapa.rebuses"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "806175016869-sns9shovb3iv51bat49qh72qg2a5kagk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "xyz.yapapa.rebuses",
+            "certificate_hash": "533e4ca73c003fe250cdfa67da8594ab9432b662"
+          }
+        },
+        {
+          "client_id": "806175016869-773hm6bc1efe79d9f6pcf06nqrpd1olo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqp1qP3f1E7MwtD86svAoQ4MOA0Oqt2HY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "806175016869-773hm6bc1efe79d9f6pcf06nqrpd1olo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

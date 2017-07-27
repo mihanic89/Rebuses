@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +16,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private AdView mAdViewMain;
 
     private StaggeredGridLayoutManager gaggeredGridLayoutManager;
 
@@ -21,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
@@ -32,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
 
         RebusRecyclerViewAdapter rcAdapter = new RebusRecyclerViewAdapter(MainActivity.this, gaggeredList);
         recyclerView.setAdapter(rcAdapter);
+
+
+
+        mAdViewMain = (AdView) findViewById(R.id.adViewMain);
+        AdRequest adRequest = new AdRequest.Builder()
+                //.addTestDevice("09D7B5315C60A80D280B8CDF618FD3DE")
+                .build();
+        mAdViewMain.loadAd(adRequest);
     }
 
     private List<ItemObjects> getListItemData(){
@@ -51,19 +63,19 @@ public class MainActivity extends AppCompatActivity {
         listViewItems.add(new ItemObjects(R.drawable.r13, "БЛ-ОКНО-Т"));
         listViewItems.add(new ItemObjects(R.drawable.r14, "СК-РЕПКА"));
         listViewItems.add(new ItemObjects(R.drawable.r15, "В-О-ЛК"));
-        listViewItems.add(new ItemObjects(R.drawable.r16, "ЛИ-МОН));));
-        listViewItems.add(new ItemObjects(R.drawable.r17, "ШМ-ЕЛЬ));
-        listViewItems.add(new ItemObjects(R.drawable.r18, "ВОЛ-ОСЫ));
-        listViewItems.add(new ItemObjects(R.drawable.r19, "ВОЛН-А));
-        listViewItems.add(new ItemObjects(R.drawable.r20, "ОСЕНЬ));
-        listViewItems.add(new ItemObjects(R.drawable.r21, "И-СТО-РИ-Я));
-        listViewItems.add(new ItemObjects(R.drawable.r22, "Ю-БОЧКА));
-        listViewItems.add(new ItemObjects(R.drawable.r23, "САМОК-АТ));
-        listViewItems.add(new ItemObjects(R.drawable.r24, "Г-РУША));
-        listViewItems.add(new ItemObjects(R.drawable.r25, "В-ТОР-НИК));
-        listViewItems.add(new ItemObjects(R.drawable.r26, "Ш-УТКА));
-        listViewItems.add(new ItemObjects(R.drawable.r27, "ДО-РОГА));
-        listViewItems.add(new ItemObjects(R.drawable.r28, "КУР-СОР));
+        listViewItems.add(new ItemObjects(R.drawable.r16, "ЛИ-МОН"));
+        listViewItems.add(new ItemObjects(R.drawable.r17, "ШМ-ЕЛЬ"));
+        listViewItems.add(new ItemObjects(R.drawable.r18, "ВОЛ-ОСЫ"));
+        listViewItems.add(new ItemObjects(R.drawable.r19, "ВОЛН-А"));
+        listViewItems.add(new ItemObjects(R.drawable.r20, "ОСЕНЬ"));
+        listViewItems.add(new ItemObjects(R.drawable.r21, "И-СТО-РИ-Я"));
+        listViewItems.add(new ItemObjects(R.drawable.r22, "Ю-БОЧКА"));
+        listViewItems.add(new ItemObjects(R.drawable.r23, "САМОК-АТ"));
+        listViewItems.add(new ItemObjects(R.drawable.r24, "Г-РУША"));
+        listViewItems.add(new ItemObjects(R.drawable.r25, "В-ТОР-НИК"));
+        listViewItems.add(new ItemObjects(R.drawable.r26, "Ш-УТКА"));
+        listViewItems.add(new ItemObjects(R.drawable.r27, "ДО-РОГА"));
+        listViewItems.add(new ItemObjects(R.drawable.r28, "КУР-СОР"));
         listViewItems.add(new ItemObjects(R.drawable.r29, "РЫБА-К"));
         listViewItems.add(new ItemObjects(R.drawable.r30, "В-Е-СНА"));
         listViewItems.add(new ItemObjects(R.drawable.r31, "СВИ-СТО-К"));
@@ -88,5 +100,28 @@ public class MainActivity extends AppCompatActivity {
 
 
         return listViewItems;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Resume the AdView.
+        mAdViewMain.resume();
+    }
+
+    @Override
+    public void onPause() {
+        // Pause the AdView.
+        mAdViewMain.pause();
+
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        // Destroy the AdView.
+
+        mAdViewMain.destroy();
+        super.onDestroy();
     }
 }
