@@ -11,4 +11,8 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="PrimaryButton" parent="AppTheme">
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+    </style>
 </resources>

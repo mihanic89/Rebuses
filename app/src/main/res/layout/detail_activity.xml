@@ -13,7 +13,8 @@
         android:gravity="center_horizontal"
         android:layout_above="@+id/textView"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        android:id="@+id/relativeLayout">
 
         <ImageView
             android:id="@+id/imageView"
@@ -34,20 +35,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textSize="30sp"
+        android:textSize="50sp"
+        android:paddingBottom="100dp"
         android:gravity="center"
-        android:layout_alignTop="@+id/buttonAnswer"
-        android:layout_alignBottom="@+id/buttonAnswer"
+
+        android:layout_above="@+id/adView2"
         android:layout_alignParentStart="true" />
 
     <Button
+        style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/buttonAnswer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:layout_below="@+id/relativeLayout"
+        android:textColor="#ffffff"
+        android:textSize="50sp"
+
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_centerHorizontal="true"
+        android:theme="@style/PrimaryButton"
         android:gravity="center"
-        android:layout_above="@+id/adView2"
-        android:layout_centerHorizontal="true" />
+        android:text="Ответ" />
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView2"

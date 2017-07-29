@@ -6,10 +6,11 @@
     android:layout_height="match_parent"
     tools:context="xyz.yapapa.rebuses.HelpActivity">
 
-    <TextView
-        android:id="@+id/textViewHelp"
+
+    <WebView
+        android:id="@+id/webViewHelp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="TextView"
-        />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>
