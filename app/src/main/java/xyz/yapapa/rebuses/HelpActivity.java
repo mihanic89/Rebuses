@@ -1,11 +1,10 @@
 package xyz.yapapa.rebuses;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class HelpActivity extends AppCompatActivity {
 
@@ -13,12 +12,17 @@ public class HelpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.help);
-        WebView webViewHelp= (WebView) findViewById(R.id.webViewHelp);
-        WebSettings webSetting = webViewHelp.getSettings();
-        webSetting.setBuiltInZoomControls(true);
-        webSetting.setJavaScriptEnabled(true);
 
-        webViewHelp.setWebViewClient(new WebViewClient());
-        webViewHelp.loadUrl("file:///android_asset/help.html");
+        WebView webView = findViewById(R.id.webViewHelp);
+        WebSettings settings = webView.getSettings();
+        // The page is static bundled HTML: no scripts, no network, no file system access.
+        // file:///android_asset/ stays readable regardless of setAllowFileAccess.
+        settings.setJavaScriptEnabled(false);
+        settings.setAllowFileAccess(false);
+        settings.setAllowContentAccess(false);
+        settings.setBlockNetworkLoads(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setDisplayZoomControls(false);
+        webView.loadUrl("file:///android_asset/help.html");
     }
 }

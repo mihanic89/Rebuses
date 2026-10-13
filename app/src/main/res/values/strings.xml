@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Ребусы</string>
+    <string name="show_answer">Ответ</string>
+    <string name="help">Правила отгадывания ребусов</string>
+    <string name="rebus_image">Ребус</string>
+    <string name="rebus_number">Ребус %1$d</string>
+    <string name="rebus_counter">Ребус %1$d из %2$d</string>
 </resources>

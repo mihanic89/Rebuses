@@ -1,98 +1,99 @@
 package xyz.yapapa.rebuses;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.firebase.analytics.FirebaseAnalytics;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager2.widget.ViewPager2;
 
-/**
- * Created by Misha on 25.07.2017.
- */
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+/** Shows one rebus at a time; swipe left/right to move between rebuses. */
 public class DetailActivity extends AppCompatActivity {
-    private FirebaseAnalytics mFirebaseAnalytics;
-    private AdView mAdView;
 
+    private static final String EXTRA_INDEX = "xyz.yapapa.rebuses.extra.INDEX";
+    private static final String STATE_REVEALED = "revealed";
+
+    private final Set<Integer> revealed = new HashSet<>();
+
+    public static Intent newIntent(Context context, int index) {
+        return new Intent(context, DetailActivity.class).putExtra(EXTRA_INDEX, index);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        List<Rebus> rebuses = RebusRepository.getAll(this);
+        int startIndex = getIntent().getIntExtra(EXTRA_INDEX, -1);
+        if (startIndex < 0 || startIndex >= rebuses.size()) {
+            finish();
+            return;
+        }
+
         setContentView(R.layout.detail_activity);
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        String answer= new String();
-        Bundle bundle = getIntent().getExtras();
-        int image = bundle.getInt("image");
-        answer = bundle.getString("answer");
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ImageView rebus = (ImageView) findViewById(R.id.imageView);
-
-
-        rebus.setImageResource(image);
-
-       final TextView answerTextView = (TextView) findViewById(R.id.textView);
-        answerTextView.setVisibility(View.INVISIBLE);
-       final Button btnAnswer = (Button) findViewById(R.id.buttonAnswer);
-        final ImageView btHelp = (ImageView) findViewById(R.id.buttonHelp);
-
-
-        View.OnClickListener oclbtnAnswer = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                answerTextView.setVisibility(View.VISIBLE);
-                btnAnswer.setVisibility(View.INVISIBLE);
+        if (savedInstanceState != null) {
+            int[] saved = savedInstanceState.getIntArray(STATE_REVEALED);
+            if (saved != null) {
+                for (int index : saved) {
+                    revealed.add(index);
+                }
             }
-        };
+        }
 
-        View.OnClickListener oclbtnHelp = new View.OnClickListener() {
+        ViewPager2 pager = findViewById(R.id.pager);
+        pager.setAdapter(new RebusPagerAdapter(rebuses, revealed));
+        pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Intent intent = new Intent(DetailActivity.this, HelpActivity.class);
-
-                startActivity(intent);
+            public void onPageSelected(int position) {
+                setTitle(getString(R.string.rebus_counter, position + 1, rebuses.size()));
             }
-        };
-
-        btnAnswer.setOnClickListener(oclbtnAnswer);
-        btHelp.setOnClickListener(oclbtnHelp);
-        answerTextView.setText(answer);
-
-        mAdView = (AdView) findViewById(R.id.adView2);
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("09D7B5315C60A80D280B8CDF618FD3DE")
-                .build();
-        mAdView.loadAd(adRequest);
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        // Resume the AdView.
-        mAdView.resume();
+        });
+        // After recreation ViewPager2 restores the page the user was on by itself.
+        if (savedInstanceState == null) {
+            pager.setCurrentItem(startIndex, false);
+        }
     }
 
     @Override
-    public void onPause() {
-        // Pause the AdView.
-        mAdView.pause();
-
-        super.onPause();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail, menu);
+        return true;
     }
 
     @Override
-    public void onDestroy() {
-        // Destroy the AdView.
-
-        mAdView.destroy();
-        super.onDestroy();
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        if (item.getItemId() == R.id.action_help) {
+            startActivity(new Intent(this, HelpActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        int[] saved = new int[revealed.size()];
+        int i = 0;
+        for (int index : revealed) {
+            saved[i++] = index;
+        }
+        outState.putIntArray(STATE_REVEALED, saved);
+    }
 }
